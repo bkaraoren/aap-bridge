@@ -98,7 +98,7 @@ init-env: ## Initialize .env file from .env.example
 setup: install-dev install-editable init-env ## Complete development setup
 
 version: ## Show current version
-	@$(PYTHON) -c "from importlib.metadata import version; print(f'AAP Migration Tool v{version(\"aap-migration-tool\")}')" 2>/dev/null || echo "Package not installed"
+	@$(PYTHON) -c "from importlib.metadata import version; print(f'AAP Bridge v{version(\"aap-bridge\")}')" 2>/dev/null || echo "Package not installed"
 
 .PHONY: all
 all: check docs ## Run all checks and build docs

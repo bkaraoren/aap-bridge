@@ -89,7 +89,7 @@ sudo dnf install python3.12-pip
 python3.12 -m venv .venv
 source .venv/bin/activate
 
-# Populate the virtual environmentB
+# Populate the virtual environment
 pip3.12 install --upgrade pip setuptools wheel
 pip3.12 install -e .
 ```

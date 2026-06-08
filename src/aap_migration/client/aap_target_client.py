@@ -16,6 +16,13 @@ from aap_migration.utils.retry import retry_api_call
 logger = get_logger(__name__)
 
 
+def _pagination_params_equal(left: dict[str, Any], right: dict[str, Any]) -> bool:
+    """Compare query params regardless of string/int coercion from parse_qsl."""
+    return {key: str(value) for key, value in left.items()} == {
+        key: str(value) for key, value in right.items()
+    }
+
+
 class AAPTargetClient(BaseAPIClient):
     """Client for AAP 2.6 target instance.
 
@@ -546,12 +553,23 @@ class AAPTargetClient(BaseAPIClient):
             # Get next page URL (already includes params)
             next_url = response.get("next")
             if next_url:
-                # Extract path from full URL for next request
-                from urllib.parse import urlparse
+                # Extract path and query params from next page URL
+                from urllib.parse import parse_qsl, urlparse
 
                 parsed = urlparse(next_url)
-                endpoint = parsed.path.replace("/api/controller/v2/", "")
-                params = {}  # Next URL already has query params
+                next_endpoint = parsed.path.replace("/api/controller/v2/", "").lstrip("/")
+                next_params = dict(parse_qsl(parsed.query))
+                if next_endpoint == endpoint and _pagination_params_equal(
+                    next_params, params
+                ):
+                    logger.warning(
+                        "pagination_no_progress",
+                        resource_type=resource_type,
+                        endpoint=next_endpoint,
+                    )
+                    break
+                endpoint = next_endpoint
+                params = next_params
             else:
                 endpoint = None
 
