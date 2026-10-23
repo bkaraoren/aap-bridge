@@ -64,6 +64,43 @@ async def test_patch_returns_patched_count(tmp_path: Path) -> None:
     assert stats["skipped"] == 0
     assert stats["total"] == 1
     ctx.target_client.patch.assert_awaited_once()
+    assert "scm_refspec" not in ctx.target_client.patch.await_args.kwargs["json_data"]
+
+
+@pytest.mark.asyncio
+async def test_patch_restores_git_refspec(tmp_path: Path) -> None:
+    projects_dir = tmp_path / "projects"
+    projects_dir.mkdir()
+    (projects_dir / "projects_001.json").write_text(
+        """[
+          {
+            "name": "demo",
+            "_source_id": 10,
+            "_deferred_scm_details": {
+              "scm_type": "git",
+              "scm_url": "https://example.com/repo.git",
+              "scm_branch": "main",
+              "scm_refspec": "+refs/pull/*:refs/remotes/origin/pr/*"
+            }
+          }
+        ]"""
+    )
+
+    ctx = _make_patch_test_ctx()
+
+    with (
+        patch(
+            "aap_migration.cli.commands.patch_projects.wait_for_project_sync",
+            new_callable=AsyncMock,
+            return_value=_SYNC_COMPLETE,
+        ),
+        patch("aap_migration.cli.commands.patch_projects.asyncio.sleep", new_callable=AsyncMock),
+        patch("aap_migration.cli.commands.patch_projects.MigrationProgressDisplay"),
+    ):
+        await patch_project_scm_details(ctx, tmp_path, batch_size=1, interval=0)
+
+    patch_data = ctx.target_client.patch.await_args.kwargs["json_data"]
+    assert patch_data["scm_refspec"] == "+refs/pull/*:refs/remotes/origin/pr/*"
 
 
 def _make_patch_test_project_file(tmp_path: Path) -> None:

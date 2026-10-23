@@ -1480,6 +1480,7 @@ class ProjectTransformer(DataTransformer):
                     "scm_type": scm_type,
                     "scm_url": data.get("scm_url"),
                     "scm_branch": data.get("scm_branch", ""),
+                    "scm_refspec": data.get("scm_refspec", ""),
                     "scm_clean": data.get("scm_clean", False),
                     "scm_delete_on_update": data.get("scm_delete_on_update", False),
                     "scm_update_on_launch": data.get("scm_update_on_launch", False),
@@ -1493,6 +1494,7 @@ class ProjectTransformer(DataTransformer):
                 # Remove other SCM fields to be clean
                 for field in [
                     "scm_branch",
+                    "scm_refspec",
                     "scm_clean",
                     "scm_delete_on_update",
                     "scm_update_on_launch",
