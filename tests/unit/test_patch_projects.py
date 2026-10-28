@@ -41,6 +41,27 @@ def test_scm_fields_match_requires_matching_scm_type_and_url() -> None:
     assert _scm_fields_match(target, deferred, ctx) is False
 
 
+def test_scm_fields_match_requires_matching_git_refspec() -> None:
+    ctx = _ctx_with_mappings()
+    deferred = {
+        "scm_type": "git",
+        "scm_url": "https://example.com/repo.git",
+        "scm_branch": "main",
+        "scm_refspec": "+refs/pull/*:refs/remotes/origin/pr/*",
+    }
+    target = {
+        "scm_type": "git",
+        "scm_url": "https://example.com/repo.git",
+        "scm_branch": "main",
+        "scm_refspec": deferred["scm_refspec"],
+    }
+
+    assert _scm_fields_match(target, deferred, ctx) is True
+
+    target["scm_refspec"] = ""
+    assert _scm_fields_match(target, deferred, ctx) is False
+
+
 def test_scm_fields_match_requires_mapped_credential_when_deferred() -> None:
     ctx = _ctx_with_mappings(credential_map={7: 70})
     deferred = {

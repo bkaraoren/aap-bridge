@@ -61,6 +61,12 @@ def _scm_fields_match(target: dict, deferred: dict, ctx: MigrationContext) -> bo
         return False
     if (target.get("scm_branch") or "") != (deferred.get("scm_branch") or ""):
         return False
+    if (
+        deferred_scm == "git"
+        and "scm_refspec" in deferred
+        and (target.get("scm_refspec") or "") != (deferred.get("scm_refspec") or "")
+    ):
+        return False
     for field in _PROJECT_SCM_BOOL_FIELDS:
         if bool(target.get(field)) != bool(deferred.get(field, False)):
             return False
@@ -445,6 +451,8 @@ async def patch_project_scm_details(
                         "scm_update_on_launch": deferred.get("scm_update_on_launch", False),
                         "scm_update_cache_timeout": deferred.get("scm_update_cache_timeout", 0),
                     }
+                    if deferred.get("scm_type") == "git" and "scm_refspec" in deferred:
+                        patch_data["scm_refspec"] = deferred.get("scm_refspec", "")
 
                     # Resolve credential dependency
                     source_cred_id = deferred.get("credential")
