@@ -67,6 +67,8 @@ in the repository.
 
 **Bug Fixes:**
 
+- Git project `scm_refspec` is retained through deferred SCM / Phase 2 PATCH and
+  idempotency checks so it is no longer dropped on migration (#180).
 - Phase 2 import summary reports patched project count instead of always
   `0 resources processed` (#116).
 - Inventory source sync wait no longer hangs after a 405 on `update/` (removed GET
