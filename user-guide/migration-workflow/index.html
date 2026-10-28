@@ -12,8 +12,10 @@
         <meta name="author" content="Antony Sallas">
       
       
+        <link rel="canonical" href="https://redhat-cop.github.io/aap-bridge/user-guide/migration-workflow/">
       
-        <link rel="prev" href="../cli-reference/">
+      
+        <link rel="prev" href="../disconnected-environment/">
       
       
         <link rel="next" href="../filtering-and-skipping/">
@@ -23,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -308,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../reference/changelog/" class="md-tabs__link">
+        <a href="../../reference/compatibility-matrix/" class="md-tabs__link">
           
   
   
@@ -609,6 +611,62 @@
     
   
     CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../disconnected-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disconnected Environment
   
 
     
@@ -1035,6 +1093,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../developer-guide/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../developer-guide/adding-resource-types/" class="md-nav__link">
         
   
@@ -1150,6 +1236,90 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compatibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/support-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource Support Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/awx-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/changelog/" class="md-nav__link">
         
   
@@ -1200,6 +1370,10 @@
 
 <h1 id="migration-workflow">Migration Workflow<a class="headerlink" href="#migration-workflow" title="Permanent link">&para;</a></h1>
 <p>This guide explains the complete AAP migration process.</p>
+<p>The source instance may be Ansible Automation Platform (AAP) or upstream AWX.
+When using AWX, configure <code>SOURCE__VERSION</code> to the equivalent AAP release level
+(only AWX 24.6.1 has been tested). See
+<a href="../../reference/awx-migration/">AWX Migration</a> for the version mapping.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>AAP Bridge follows an ETL (Export, Transform, Load) pattern:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌──────────┐    ┌──────────┐    ┌───────────┐    ┌────────┐    ┌──────────┐
@@ -1235,7 +1409,8 @@
 <li>Splits large datasets into multiple files</li>
 <li>Tracks export progress in state database</li>
 </ol>
-<p><strong>Export Order:</strong></p>
+<p><strong>Export / import order</strong> (canonical — keep this table in sync with the
+implementation; other docs should link here rather than duplicate it):</p>
 <table>
 <thead>
 <tr>
@@ -1328,7 +1503,7 @@
 <tr>
 <td>17</td>
 <td>Schedules</td>
-<td>System-job schedules excluded</td>
+<td>System-job schedules excluded; imported with <code>enabled=false</code></td>
 </tr>
 <tr>
 <td>18</td>
@@ -1357,6 +1532,9 @@
 </tr>
 </tbody>
 </table>
+<p>Instance group <em>objects</em> are not migrated. Ensure matching instance groups
+already exist on the target before import (RBAC and capacity associations
+resolve by name).</p>
 <p><strong>Output Structure:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>exports/
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── metadata.json
@@ -1403,7 +1581,8 @@
 </ol>
 <p><strong>Import Features:</strong></p>
 <ul>
-<li><strong>Bulk Operations</strong>: Hosts imported 200 at a time via the AAP bulk API</li>
+<li><strong>Bulk Operations</strong>: Hosts imported in batches sized to the target's
+  <code>BULK_HOST_MAX_CREATE</code> (stock default: 100; API max: 200)</li>
 <li><strong>Host-Group Associations</strong>: Hosts are associated with their groups after bulk import</li>
 <li><strong>Inventory Source Sync</strong>: After importing inventory sources, the tool triggers a sync and
   waits for completion before moving to constructed and smart inventories</li>
@@ -1415,8 +1594,10 @@
   (started/success/error/approvals) are applied after template creation</li>
 <li><strong>Nested Groups</strong>: Inventory group parent-child relationships are recreated after all groups
   are imported</li>
-<li><strong>Classic RBAC Translation</strong>: User and team role grants from AAP 2.3–2.5 are translated to
-  the AAP 2.5+ RBAC model</li>
+<li><strong>Classic RBAC Translation</strong>: On legacy sources (AAP ≤2.4), user and team role grants from
+  <code>users/{id}/roles/</code> and <code>teams/{id}/roles/</code> are converted to <code>role_user_assignments</code> and
+  <code>role_team_assignments</code> on AAP 2.5+ targets. AAP 2.5+ sources export the new assignment
+  APIs directly</li>
 <li><strong>Idempotency</strong>: Skips already-migrated resources</li>
 <li><strong>Conflict Resolution</strong>: Updates or skips existing resources</li>
 <li><strong>Checkpointing</strong>: Can resume from any failure point</li>
@@ -1495,7 +1676,13 @@
 <li><strong>Backup target AAP</strong> - Always have a rollback plan</li>
 <li><strong>Test in staging</strong> - Run migration in a test environment first</li>
 <li><strong>Check disk space</strong> - Exports can be large</li>
-<li><strong>Verify credentials</strong> - Ensure API tokens have admin access</li>
+<li><strong>Verify credentials</strong> - Source API token has read-only scope with
+   permission to read all resources being migrated; target API token has
+   read/write scope with admin-level access to create and modify resources</li>
+<li><strong>Instance groups on target</strong> - Create any referenced instance groups on
+   the target (same names as source) before import</li>
+<li><strong>Encrypted secrets</strong> - Plan Vault or manual re-entry for credential secret
+   fields (<code>$encrypted$</code> cannot be read via the API)</li>
 </ol>
 <h3 id="during-migration">During Migration<a class="headerlink" href="#during-migration" title="Permanent link">&para;</a></h3>
 <ol>
@@ -1570,7 +1757,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/mermaid.js" type="module"></script>
       

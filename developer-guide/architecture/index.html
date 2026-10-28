@@ -12,18 +12,20 @@
         <meta name="author" content="Antony Sallas">
       
       
+        <link rel="canonical" href="https://redhat-cop.github.io/aap-bridge/developer-guide/architecture/">
+      
       
         <link rel="prev" href="../adding-resource-types/">
       
       
-        <link rel="next" href="../../reference/changelog/">
+        <link rel="next" href="../../reference/compatibility-matrix/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -308,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../reference/changelog/" class="md-tabs__link">
+        <a href="../../reference/compatibility-matrix/" class="md-tabs__link">
           
   
   
@@ -624,6 +626,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../../user-guide/web-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/disconnected-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disconnected Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../user-guide/migration-workflow/" class="md-nav__link">
         
   
@@ -800,6 +858,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../adding-resource-types/" class="md-nav__link">
         
   
@@ -949,6 +1035,17 @@
     <span class="md-ellipsis">
       
         AAPTargetClient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apilayout-api_layoutpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ApiLayout (api_layout.py)
       
     </span>
   </a>
@@ -1301,6 +1398,90 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compatibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/support-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource Support Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/awx-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/changelog/" class="md-nav__link">
         
   
@@ -1437,19 +1618,29 @@ management for checkpointing and idempotency.</p>
 <h2 id="key-components">Key Components<a class="headerlink" href="#key-components" title="Permanent link">&para;</a></h2>
 <h3 id="client-layer">Client Layer<a class="headerlink" href="#client-layer" title="Permanent link">&para;</a></h3>
 <h4 id="aapsourceclient">AAPSourceClient<a class="headerlink" href="#aapsourceclient" title="Permanent link">&para;</a></h4>
-<p>HTTP client for source AAP (2.3/2.4):</p>
+<p>HTTP client for the source AAP instance:</p>
 <ul>
-<li>Base URL: <code>/api/v2/</code></li>
-<li>Handles pagination</li>
-<li>Rate limiting and retries</li>
-<li>Authentication via token</li>
+<li>Configured with host URL (<code>https://fqdn</code>) and <code>SOURCE__VERSION</code></li>
+<li>Selects legacy (<code>/api/v2/</code>) or gateway topology from the configured version</li>
+<li>Handles pagination, rate limiting, retries, and token auth</li>
 </ul>
 <h4 id="aaptargetclient">AAPTargetClient<a class="headerlink" href="#aaptargetclient" title="Permanent link">&para;</a></h4>
-<p>HTTP client for target AAP (2.6+):</p>
+<p>HTTP client for the target AAP instance:</p>
 <ul>
-<li>Base URL: <code>/api/controller/v2/</code> (Platform Gateway)</li>
-<li>Bulk operation support</li>
-<li>Same retry/rate limiting logic</li>
+<li>Same host-only configuration and auto-discovery as the source client</li>
+<li>On AAP 2.5+, routes shared resources (orgs, users, teams, RBAC) to
+  <code>/api/gateway/v1/</code> and automation content to <code>/api/controller/v2/</code></li>
+<li>Bulk operation support on controller endpoints</li>
+</ul>
+<h4 id="apilayout-api_layoutpy">ApiLayout (<code>api_layout.py</code>)<a class="headerlink" href="#apilayout-api_layoutpy" title="Permanent link">&para;</a></h4>
+<p>Single source of truth for API path roots and version-aware routing:</p>
+<ul>
+<li><code>SOURCE__VERSION</code> / <code>TARGET__VERSION</code> select legacy (<code>/api/v2/</code>) vs gateway topology</li>
+<li>Endpoint segment sets determine gateway vs controller base per request</li>
+<li>RBAC assignments route by <code>content_type</code> (including <code>shared.organization</code> /
+  <code>shared.team</code> on gateway exports)</li>
+<li><code>classic_rbac_conversion.py</code> maps legacy principal grants to role assignment
+  rows when importing to gateway targets</li>
 </ul>
 <h3 id="migration-layer">Migration Layer<a class="headerlink" href="#migration-layer" title="Permanent link">&para;</a></h3>
 <h4 id="exporter">Exporter<a class="headerlink" href="#exporter" title="Permanent link">&para;</a></h4>
@@ -1461,7 +1652,7 @@ management for checkpointing and idempotency.</p>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Paginate through all resources.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="sd">"""Paginate through all resources."""</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="o">...</span>
 </code></pre></div>
 <p>Resource-specific exporters inherit from <code>ResourceExporter</code>:</p>
@@ -1474,14 +1665,14 @@ management for checkpointing and idempotency.</p>
 <h4 id="transformer">Transformer<a class="headerlink" href="#transformer" title="Permanent link">&para;</a></h4>
 <p>Transforms data between AAP versions:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">DataTransformer</span><span class="p">:</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;organization&quot;</span><span class="p">:</span> <span class="s2">&quot;organizations&quot;</span><span class="p">}</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"organization"</span><span class="p">:</span> <span class="s2">"organizations"</span><span class="p">}</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="n">state</span><span class="p">:</span> <span class="n">MigrationState</span><span class="p">,</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply transformations.&quot;&quot;&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="sd">"""Apply transformations."""</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="o">...</span>
 </code></pre></div>
 <p>Transformations include:</p>
@@ -1500,7 +1691,7 @@ management for checkpointing and idempotency.</p>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="n">source_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Import single resource.&quot;&quot;&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="sd">"""Import single resource."""</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="o">...</span>
 </code></pre></div>
 <p>Special handling for:</p>
@@ -1554,9 +1745,9 @@ management for checkpointing and idempotency.</p>
 <h3 id="resource-registry">Resource Registry<a class="headerlink" href="#resource-registry" title="Permanent link">&para;</a></h3>
 <p>Central registry of all resource types:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">RESOURCE_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="s2">&quot;organizations&quot;</span><span class="p">:</span> <span class="n">ResourceTypeInfo</span><span class="p">(</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;organizations&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;organizations/&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="s2">"organizations"</span><span class="p">:</span> <span class="n">ResourceTypeInfo</span><span class="p">(</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="n">name</span><span class="o">=</span><span class="s2">"organizations"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="n">endpoint</span><span class="o">=</span><span class="s2">"organizations/"</span><span class="p">,</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="n">migration_order</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>        <span class="n">cleanup_order</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="n">has_exporter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1622,8 +1813,8 @@ management for checkpointing and idempotency.</p>
 <h3 id="custom-transformers">Custom Transformers<a class="headerlink" href="#custom-transformers" title="Permanent link">&para;</a></h3>
 <p>Create a custom transformer for complex transformations:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomTransformer</span><span class="p">(</span><span class="n">DataTransformer</span><span class="p">):</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;organization&quot;</span><span class="p">:</span> <span class="s2">&quot;organizations&quot;</span><span class="p">}</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">REQUIRED_DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;organization&quot;</span><span class="p">}</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"organization"</span><span class="p">:</span> <span class="s2">"organizations"</span><span class="p">}</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">REQUIRED_DEPENDENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"organization"</span><span class="p">}</span>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="bp">self</span><span class="p">,</span>
@@ -1656,7 +1847,7 @@ management for checkpointing and idempotency.</p>
 </ul>
 <h3 id="bulk-operations">Bulk Operations<a class="headerlink" href="#bulk-operations" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Hosts: 200 per bulk request</li>
+<li>Hosts: up to <code>BULK_HOST_MAX_CREATE</code> per bulk request (stock default 100; API max 200)</li>
 <li>Uses <code>/bulk/host_create</code> endpoint</li>
 <li>Significantly faster than individual creates</li>
 </ul>
@@ -1730,7 +1921,7 @@ management for checkpointing and idempotency.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/mermaid.js" type="module"></script>
       

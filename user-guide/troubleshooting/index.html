@@ -12,6 +12,8 @@
         <meta name="author" content="Antony Sallas">
       
       
+        <link rel="canonical" href="https://redhat-cop.github.io/aap-bridge/user-guide/troubleshooting/">
+      
       
         <link rel="prev" href="../filtering-and-skipping/">
       
@@ -23,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -308,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../reference/changelog/" class="md-tabs__link">
+        <a href="../../reference/compatibility-matrix/" class="md-tabs__link">
           
   
   
@@ -629,6 +631,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../web-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../disconnected-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disconnected Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../migration-workflow/" class="md-nav__link">
         
   
@@ -928,6 +986,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#migration-appears-stuck-polling-inventory-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration appears stuck polling inventory sources
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -989,6 +1058,56 @@
     <span class="md-ellipsis">
       
         Rate limiting errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-ui-and-container-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web UI and container ports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web UI and container ports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port-8080-returns-301-to-8443-or-engine-fails-with-address-already-in-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Port 8080 returns 301 to :8443, or engine fails with address already in use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nginx-permission-denied-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx Permission denied (13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#browser-connection-refused-on-localhost8080" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Browser connection refused on localhost:8080
       
     </span>
   </a>
@@ -1164,6 +1283,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../developer-guide/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../developer-guide/adding-resource-types/" class="md-nav__link">
         
   
@@ -1279,6 +1426,90 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compatibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/support-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource Support Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/awx-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/changelog/" class="md-nav__link">
         
   
@@ -1337,9 +1568,8 @@
 <p><strong>Solutions:</strong></p>
 <ol>
 <li>Verify the URL is correct in <code>.env</code></li>
-<li>Check network connectivity: <code>curl -I
-   https://source-aap.example.com/api/v2/ping/</code></li>
-<li>Verify the API token is valid</li>
+<li>Check network connectivity: <code>curl -I https://source-aap.example.com/api/</code></li>
+<li>Verify the API token is valid and has read scope</li>
 <li>Check firewall rules</li>
 </ol>
 <h3 id="cannot-connect-to-target-aap-platform-gateway">Cannot connect to target AAP (Platform Gateway)<a class="headerlink" href="#cannot-connect-to-target-aap-platform-gateway" title="Permanent link">&para;</a></h3>
@@ -1347,13 +1577,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Error: 404 Not Found at /api/v2/organizations/
 </code></pre></div>
 <p><strong>Solution:</strong></p>
-<p>For AAP 2.6+, use the Platform Gateway URL:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Wrong</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">TARGET__URL</span><span class="o">=</span>https://target-aap.example.com/api/v2
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Correct</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">TARGET__URL</span><span class="o">=</span>https://target-aap.example.com/api/controller/v2
+<p>Use the host URL only in <code>.env</code> — API paths are auto-discovered:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">TARGET__URL</span><span class="o">=</span>https://target-aap.example.com
 </code></pre></div>
+<p>On AAP 2.5+, organizations and other shared resources are routed to
+<code>/api/gateway/v1/</code> automatically. Legacy <code>/api/v2/</code> paths in <code>TARGET__URL</code> are
+stripped but no longer required.</p>
 <h3 id="authentication-errors">Authentication errors<a class="headerlink" href="#authentication-errors" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Error: 401 Unauthorized
@@ -1361,7 +1590,11 @@
 <p><strong>Solutions:</strong></p>
 <ol>
 <li>Regenerate API token in AAP UI</li>
-<li>Ensure token has admin privileges</li>
+<li>Verify token scope matches the instance role:</li>
+<li><strong>Source</strong>: read-only scope is sufficient; the user must be able to
+     read all resources being migrated</li>
+<li><strong>Target</strong>: read/write scope with admin-level privileges is required for
+     import, cleanup, and validation</li>
 <li>Check token hasn't expired</li>
 </ol>
 <h2 id="database-issues">Database Issues<a class="headerlink" href="#database-issues" title="Permanent link">&para;</a></h2>
@@ -1435,7 +1668,7 @@
  types.</p>
 <h3 id="resource-already-exists">Resource already exists<a class="headerlink" href="#resource-already-exists" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Warning: Conflict - organization &#39;MyOrg&#39; already exists
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Warning: Conflict - organization 'MyOrg' already exists
 </code></pre></div>
 <p><strong>Behavior:</strong> AAP Bridge handles this automatically by:</p>
 <ol>
@@ -1463,23 +1696,94 @@
 <h3 id="bulk-import-errors">Bulk import errors<a class="headerlink" href="#bulk-import-errors" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Error: Bulk host create failed: 400 Bad Request
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Number of hosts exceeds system setting BULK_HOST_MAX_CREATE
 </code></pre></div>
+<p><strong>Cause:</strong> AAP Bridge batch size (<code>performance.batch_sizes.hosts</code>) exceeds the
+target controller setting <code>BULK_HOST_MAX_CREATE</code>. Stock AAP/AWX installs default
+this to <strong>100</strong>, while the bulk API accepts up to <strong>200</strong> hosts per request.
+Bridge used to default to 200, which fails on unmodified targets.</p>
 <p><strong>Solutions:</strong></p>
 <ol>
-<li>Check for invalid host data (duplicate names, invalid characters)</li>
-<li>Reduce batch size:</li>
+<li>Set Bridge batch size to match (or stay below) the target limit:</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">performance</span><span class="p">:</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">batch_sizes</span><span class="p">:</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 </code></pre></div>
 <ol>
+<li>
+<p>Or raise the limit on the target: <strong>Settings → Bulk Actions → Max number of
+   hosts to allow to be created in a single bulk action</strong> (requires admin access).</p>
+</li>
+<li>
+<p>Verify the target limit before migrating:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>aap-bridge<span class="w"> </span>config<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config/config.yaml<span class="w"> </span>--check-connectivity
+</code></pre></div>
+<p>Bridge now defaults to 100 and auto-caps batch size at import time when it can
+read <code>BULK_HOST_MAX_CREATE</code> from the target.</p>
+<p><strong>Other bulk import failures:</strong></p>
+<ol>
+<li>Check for invalid host data (duplicate names, invalid characters)</li>
+<li>Reduce batch size further if hosts have large <code>variables</code> payloads (nginx ~1MB body limit):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">performance</span><span class="p">:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">batch_sizes</span><span class="p">:</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+</code></pre></div>
+<ol>
 <li>Check target AAP logs for details</li>
+</ol>
+<h3 id="migration-appears-stuck-polling-inventory-sources">Migration appears stuck polling inventory sources<a class="headerlink" href="#migration-appears-stuck-polling-inventory-sources" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Import seems frozen after inventory sources (often mistaken for job template
+  creation, which runs later in phase 2)</li>
+<li>Logs repeatedly show successful <code>GET</code> requests to
+  <code>/api/controller/v2/inventory_sources/&lt;id&gt;/</code> every few seconds</li>
+<li>Target UI may already show those sources as healthy while Bridge keeps polling</li>
+</ul>
+<p><strong>Cause:</strong> After importing inventory sources, Bridge triggers a sync and waits
+for each <code>inventory_update</code> before continuing (smart/constructed inventories,
+hosts, then job templates). The wait polls the inventory source object until
+status leaves active states (<code>pending</code>, <code>waiting</code>, <code>running</code>, <code>never updated</code>,
+etc.), up to <code>inventory_source_update_job_timeout_seconds</code> (default 3600).</p>
+<p><strong>Diagnosis:</strong></p>
+<ol>
+<li>Prefer structured sync events over URL-only greps:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'inventory_source_sync_poll_state|inventory_source_update_triggered|inventory_source_sync_timeout|inventory_source_sync_failed|inventory_source_sync_expected_job_mismatch'</span><span class="w"> </span>logs/migration.log
+</code></pre></div>
+<ol>
+<li>
+<p>In the target UI/API, confirm the source can sync (<code>can_update</code>): SCM sources
+   need a valid <code>source_project</code>; cloud sources need credentials; <code>source=file</code>
+   cannot be updated via the API.</p>
+</li>
+<li>
+<p>Check whether an inventory update job is actually running or stuck pending
+   (capacity, project sync dependency).</p>
+</li>
+</ol>
+<p><strong>Workarounds:</strong></p>
+<ol>
+<li>Lower the wait timeout so a stuck sync fails faster and later phases can
+   proceed when <code>inventory_source_sync_fail_on_job_failure</code> is <code>false</code> (default):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">performance</span><span class="p">:</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">inventory_source_update_job_timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">600</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">inventory_source_update_poll_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="nt">inventory_source_sync_fail_on_job_failure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<ol>
+<li>Fix the source on the target (project sync, credentials), sync it manually in
+   AAP if needed, then resume/rerun import.</li>
 </ol>
 <h2 id="validation-issues">Validation Issues<a class="headerlink" href="#validation-issues" title="Permanent link">&para;</a></h2>
 <h3 id="count-mismatch">Count mismatch<a class="headerlink" href="#count-mismatch" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Validation failed: Source has 1000 hosts, target has 998
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Validation failed: Source has 1000 hosts, target has 998
 </code></pre></div>
 <p><strong>Causes:</strong></p>
 <ol>
@@ -1499,8 +1803,8 @@
 <ol>
 <li>Increase concurrency:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">performance</span><span class="p">:</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">max_concurrent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nt">performance</span><span class="p">:</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">  </span><span class="nt">max_concurrent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
 </code></pre></div>
 <ol>
 <li>
@@ -1512,34 +1816,53 @@
 </ol>
 <h3 id="rate-limiting-errors">Rate limiting errors<a class="headerlink" href="#rate-limiting-errors" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Error: 429 Too Many Requests
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Error: 429 Too Many Requests
 </code></pre></div>
 <p><strong>Solutions:</strong></p>
 <ol>
 <li>Reduce rate limit:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">performance</span><span class="p">:</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">rate_limit</span><span class="p">:</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="nt">requests_per_second</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nt">performance</span><span class="p">:</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nt">rate_limit</span><span class="p">:</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="nt">requests_per_second</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
 </code></pre></div>
 <ol>
 <li>Reduce concurrency:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nt">performance</span><span class="p">:</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="nt">max_concurrent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nt">performance</span><span class="p">:</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">  </span><span class="nt">max_concurrent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </code></pre></div>
+<h2 id="web-ui-and-container-ports">Web UI and container ports<a class="headerlink" href="#web-ui-and-container-ports" title="Permanent link">&para;</a></h2>
+<h3 id="port-8080-returns-301-to-8443-or-engine-fails-with-address-already-in-use">Port 8080 returns 301 to :8443, or engine fails with address already in use<a class="headerlink" href="#port-8080-returns-301-to-8443-or-engine-fails-with-address-already-in-use" title="Permanent link">&para;</a></h3>
+<p>Something else already owns the default UI (8080) or engine (8000) port. A
+healthy AAP Bridge UI answers <strong>200</strong> with an nginx server header, not a
+redirect to <code>:8443</code>.</p>
+<p>The <code>ui</code> and <code>engine</code> services use host networking, so compose <code>ports:</code> lines
+do not move the listen sockets. Change <code>deploy/nginx.conf</code> and mount it, and
+override the engine <code>--port</code>. See
+<a href="../disconnected-environment/#change-ui-and-engine-ports-without-rebuilding">Change UI and engine ports without rebuilding</a>.</p>
+<h3 id="nginx-permission-denied-13">Nginx Permission denied (13)<a class="headerlink" href="#nginx-permission-denied-13" title="Permanent link">&para;</a></h3>
+<p>The UI process cannot read a bind-mounted <code>nginx.conf</code> (file mode or SELinux).
+The UI image runs as a non-root user (UID 1001 in the stock image — inspect
+yours). Use <code>chmod 644</code> on the host file and add <code>security_opt: label=disable</code>
+on the <code>ui</code> service. Full steps:
+<a href="../disconnected-environment/#2-make-the-file-readable-in-the-container">Disconnected Environment</a>.</p>
+<h3 id="browser-connection-refused-on-localhost8080">Browser connection refused on localhost:8080<a class="headerlink" href="#browser-connection-refused-on-localhost8080" title="Permanent link">&para;</a></h3>
+<p>If Bridge runs on a remote host, <code>localhost</code> in the browser is your workstation.
+Open <code>http://&lt;host-ip&gt;:8080</code> or use an SSH tunnel. See
+<a href="../disconnected-environment/#disconnected-host-load-and-start">Disconnected Environment</a>.</p>
 <h2 id="logging-and-debugging">Logging and Debugging<a class="headerlink" href="#logging-and-debugging" title="Permanent link">&para;</a></h2>
 <h3 id="enable-debug-logging">Enable debug logging<a class="headerlink" href="#enable-debug-logging" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>aap-bridge<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>migrate<span class="w"> </span>full
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>aap-bridge<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>migrate
 </code></pre></div>
 <h3 id="check-log-files">Check log files<a class="headerlink" href="#check-log-files" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>tail<span class="w"> </span>-f<span class="w"> </span>logs/aap-bridge.log
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>tail<span class="w"> </span>-f<span class="w"> </span>logs/aap-bridge.log
 </code></pre></div>
 <h3 id="enable-payload-logging">Enable payload logging<a class="headerlink" href="#enable-payload-logging" title="Permanent link">&para;</a></h3>
 <p>In <code>config/config.yaml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nt">logging</span><span class="p">:</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nt">log_payloads</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nt">file_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nt">logging</span><span class="p">:</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w">  </span><span class="nt">log_payloads</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">  </span><span class="nt">file_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1614,7 +1937,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/mermaid.js" type="module"></script>
       
